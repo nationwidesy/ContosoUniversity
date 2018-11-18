@@ -1,0 +1,60 @@
+﻿https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/creating-an-entity-framework-data-model-for-an-asp-net-mvc-application
+
+New Project
+Visual C#
+Web
+ASP.NET Web Application (.NET Framework)
+MVC : No Authentication
+Views\Shared\_Layout.cshtml
+Views\Home\Index.cshtml
+Ctrl-F5 : run the web site
+Install Entity Framework -> NuGet Package Manager -> Borwer -> Entiry Framework
+Create Data Model -> Models Folder -> Add -> Class
+Create the database context -> Add -> New Folder DAL (Data Access Layer)
+	public SchoolContext() : base("SchoolContext")
+Set up EF to initialize the database with test data (Seed Method)
+	public class SchoolInitializer : System.Data.Entity. DropCreateDatabaseIfModelChanges<SchoolContext>
+    {
+        protected override void Seed(SchoolContext context)
+        {
+Web.config (the one in root project folder):
+	<entityFramework>
+		<contexts>
+			<context type="ContosoUniversity.DAL.SchoolContext, ContosoUniversity">
+			<databaseInitializer type="ContosoUniversity.DAL.SchoolInitializer, ContosoUniversity" />
+			</context>
+		</contexts>
+Set up EF to use a SQL Server Express LocalDB database:
+Web.config:
+	<connectionStrings>
+		<add name="SchoolContext" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=ContosoUniversity1;Integrated Security=SSPI;" providerName="System.Data.SqlClient"/>
+	</connectionStrings>
+Create controller and view -> Controllers Fodler -> Add -> New Scaffolded Item
+-> select MVC 5 Controller with views, using Entity Framework -> Add
+-> Model Class: Student (ContosolUniversity.Models)
+-> Data context class : StudentContext (ContosoUniversity.DAL)
+-> Controller name: StudentControl (not StudentsControl)
+	private SchoolContext db = new SchoolContext();
+		return View(db.Students.ToList());
+
+		db.Students.Add(student);
+        db.SaveChanges();
+
+		Student student = db.Students.Find(id);
+
+		db.Entry(student).State = EntityState.Modified;
+        db.SaveChanges();
+
+		Student student = db.Students.Find(id);
+        db.Students.Remove(student);
+        db.SaveChanges();
+
+		db.Dispose();
+		base.Dispose(true);
+
+View the database:
+Server Explorer -> SQL Server Object Explorer
+Server Explorer -> Data Connection
+Show Table Data
+
+ContosoUniversity.mdf and .ldf datagase files
