@@ -58,3 +58,6 @@ Server Explorer -> Data Connection
 Show Table Data
 
 ContosoUniversity.mdf and .ldf datagase files
+
+11/18/2018 commit to gitHub at 4:55PM
+https://github.com/nationwidesy/ContosoUniversity.git
